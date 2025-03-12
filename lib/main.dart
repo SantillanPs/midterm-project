@@ -25,11 +25,10 @@ class MusicApp extends StatelessWidget {
       title: 'JukeVibe',
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Color.fromARGB(255, 243, 109, 201)
-            .withAlpha(178), // Spotify green as primary color
-        scaffoldBackgroundColor: const Color(0xFF121212),
+        primaryColor: const Color.fromARGB(255, 243, 109, 201),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 24, 22, 47),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF121212),
+          backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         textTheme: const TextTheme(
@@ -78,8 +77,43 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          "JukeVibe",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+              shadows: [
+                Shadow(
+                  color: Color.fromARGB(255, 243, 109, 201).withAlpha(178),
+                  blurRadius: 15,
+                ),
+                Shadow(
+                  color: Color.fromARGB(255, 243, 109, 201).withAlpha(128),
+                  blurRadius: 25,
+                ),
+              ]),
+        ),
+        shape: Border(
+            bottom: BorderSide(
+                color: Color.fromARGB(255, 243, 109, 201).withAlpha(178))),
+      ),
       body: Stack(
         children: [
+          // Background gradient
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                const Color.fromARGB(255, 37, 38, 66),
+                const Color.fromARGB(255, 24, 22, 47),
+              ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
+            ),
+          ),
+
           // Main content
           _screens[_selectedIndex],
 
@@ -88,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
             Positioned(
               left: 0,
               right: 0,
-              bottom: 0, // Above bottom navigation
+              bottom: 76, // Above bottom navigation
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -103,31 +137,43 @@ class _MainScreenState extends State<MainScreen> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFF282828),
-        selectedItemColor: Color.fromARGB(255, 243, 109, 201).withAlpha(178),
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-            _isPlayerVisible = true; // Show player after navigation
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.3),
+          border: Border(
+            top: BorderSide(
+              color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+              width: 1,
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_music),
-            label: 'Library',
-          ),
-        ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          selectedItemColor: const Color.fromARGB(255, 243, 109, 201),
+          unselectedItemColor: Colors.grey,
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+              _isPlayerVisible = true; // Show player after navigation
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.library_music),
+              label: 'Library',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -140,27 +186,35 @@ class MiniPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: const Color(0xFF282828),
+        color: Colors.black.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(
+          color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 5,
-            offset: const Offset(0, -1),
+            color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Row(
         children: [
           // Album art
-          Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage('https://picsum.photos/200'),
-                fit: BoxFit.cover,
-              ),
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              bottomLeft: Radius.circular(15),
+            ),
+            child: Image.network(
+              'https://picsum.photos/200',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
             ),
           ),
           // Song info
@@ -176,6 +230,7 @@ class MiniPlayer extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
+                      color: Colors.white,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -194,15 +249,36 @@ class MiniPlayer extends StatelessWidget {
           ),
           // Controls
           IconButton(
-            icon: const Icon(Icons.skip_previous),
+            icon: const Icon(
+              Icons.skip_previous,
+              color: Colors.white,
+              size: 20,
+            ),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.play_arrow),
-            onPressed: () {},
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color.fromARGB(255, 243, 109, 201),
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 20,
+              ),
+              onPressed: () {},
+            ),
           ),
           IconButton(
-            icon: const Icon(Icons.skip_next),
+            icon: const Icon(
+              Icons.skip_next,
+              color: Colors.white,
+              size: 20,
+            ),
             onPressed: () {},
           ),
         ],

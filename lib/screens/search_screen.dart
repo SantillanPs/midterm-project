@@ -20,6 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -95,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       'Jazz'
                     ];
                     final colors = [
-                      Colors.pink,
+                      const Color.fromARGB(255, 243, 109, 201),
                       Colors.blue,
                       Colors.green,
                       Colors.orange,
@@ -153,7 +154,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Colors.deepPurple,
                       Colors.lightBlue,
                       Colors.brown,
-                      Colors.pink,
+                      const Color.fromARGB(255, 243, 109, 201),
                     ];
                     return GenreCard(
                       title: categories[index % categories.length],
@@ -169,21 +170,34 @@ class _SearchScreenState extends State<SearchScreen> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: Image.network(
-                        'https://picsum.photos/50?random=$index',
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 243, 109, 201)
+                            .withOpacity(0.2),
+                        width: 1,
                       ),
                     ),
-                    title: Text('Search Result ${index + 1}'),
-                    subtitle: Text(index % 2 == 0 ? 'Song' : 'Artist'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.more_vert),
-                      onPressed: () {},
+                    child: ListTile(
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          'https://picsum.photos/50?random=$index',
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      title: Text('Search Result ${index + 1}'),
+                      subtitle: Text(index % 2 == 0 ? 'Song' : 'Artist'),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.more_vert),
+                        onPressed: () {},
+                      ),
                     ),
                   );
                 },
@@ -214,8 +228,12 @@ class GenreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: color.withOpacity(0.5),
+          width: 1,
+        ),
       ),
       child: Stack(
         children: [
@@ -227,7 +245,7 @@ class GenreCard extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
+                color: color.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(10),
               ),
               transform: Matrix4.rotationZ(0.3),

@@ -71,11 +71,11 @@ class _PlayerScreenState extends State<PlayerScreen>
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
+            begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.grey[900]!,
-              Colors.black,
+              const Color.fromARGB(255, 37, 38, 66),
+              const Color.fromARGB(255, 24, 22, 47),
             ],
           ),
         ),
@@ -101,11 +101,17 @@ class _PlayerScreenState extends State<PlayerScreen>
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
+                              color: const Color.fromARGB(255, 243, 109, 201)
+                                  .withOpacity(0.3),
                               blurRadius: 20,
                               offset: const Offset(0, 10),
                             ),
                           ],
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 243, 109, 201)
+                                .withOpacity(0.5),
+                            width: 2,
+                          ),
                           image: const DecorationImage(
                             image: NetworkImage('https://picsum.photos/500'),
                             fit: BoxFit.cover,
@@ -166,11 +172,13 @@ class _PlayerScreenState extends State<PlayerScreen>
                             overlayShape: const RoundSliderOverlayShape(
                               overlayRadius: 14,
                             ),
-                            activeTrackColor: Theme.of(context).primaryColor,
+                            activeTrackColor:
+                                const Color.fromARGB(255, 243, 109, 201),
                             inactiveTrackColor: Colors.grey[800],
                             thumbColor: Colors.white,
                             overlayColor:
-                                Theme.of(context).primaryColor.withOpacity(0.2),
+                                const Color.fromARGB(255, 243, 109, 201)
+                                    .withOpacity(0.2),
                           ),
                           child: Slider(
                             value: _currentSliderValue,
@@ -225,10 +233,11 @@ class _PlayerScreenState extends State<PlayerScreen>
                           height: 64,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white,
+                            color: const Color.fromARGB(255, 243, 109, 201),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: const Color.fromARGB(255, 243, 109, 201)
+                                    .withOpacity(0.3),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
                               ),
@@ -237,7 +246,7 @@ class _PlayerScreenState extends State<PlayerScreen>
                           child: IconButton(
                             icon: Icon(
                               _isPlaying ? Icons.pause : Icons.play_arrow,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                             iconSize: 36,
                             onPressed: () {

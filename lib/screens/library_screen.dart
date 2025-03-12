@@ -26,6 +26,7 @@ class _LibraryScreenState extends State<LibraryScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Your Library'),
         actions: [
@@ -40,7 +41,7 @@ class _LibraryScreenState extends State<LibraryScreen>
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Theme.of(context).primaryColor,
+          indicatorColor: const Color.fromARGB(255, 243, 109, 201),
           tabs: const [
             Tab(text: 'Playlists'),
             Tab(text: 'Artists'),
@@ -65,36 +66,60 @@ class _LibraryScreenState extends State<LibraryScreen>
       itemCount: 20,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return ListTile(
-            leading: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Icon(
-                Icons.favorite,
-                color: Colors.white,
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color:
+                    const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+                width: 1,
               ),
             ),
-            title: const Text('Liked Songs'),
-            subtitle: const Text('Playlist • 123 songs'),
+            child: ListTile(
+              leading: Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color:
+                      const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: const Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+              ),
+              title: const Text('Liked Songs'),
+              subtitle: const Text('Playlist • 123 songs'),
+            ),
           );
         }
-        return ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.network(
-              'https://picsum.photos/56?random=$index',
-              width: 56,
-              height: 56,
-              fit: BoxFit.cover,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+              width: 1,
             ),
           ),
-          title: Text('Playlist ${index}'),
-          subtitle: Text(
-              index % 2 == 0 ? 'Playlist • By You' : 'Playlist • By Artist'),
+          child: ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.network(
+                'https://picsum.photos/56?random=$index',
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
+              ),
+            ),
+            title: Text('Playlist ${index}'),
+            subtitle: Text(
+                index % 2 == 0 ? 'Playlist • By You' : 'Playlist • By Artist'),
+          ),
         );
       },
     );
@@ -105,17 +130,38 @@ class _LibraryScreenState extends State<LibraryScreen>
       padding: const EdgeInsets.only(bottom: 100), // Space for mini player
       itemCount: 20,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: ClipOval(
-            child: Image.network(
-              'https://picsum.photos/56?random=${index + 100}',
-              width: 56,
-              height: 56,
-              fit: BoxFit.cover,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+              width: 1,
             ),
           ),
-          title: Text('Artist ${index + 1}'),
-          subtitle: const Text('Artist'),
+          child: ListTile(
+            leading: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color:
+                      const Color.fromARGB(255, 243, 109, 201).withOpacity(0.5),
+                  width: 2,
+                ),
+              ),
+              child: ClipOval(
+                child: Image.network(
+                  'https://picsum.photos/56?random=${index + 100}',
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            title: Text('Artist ${index + 1}'),
+            subtitle: const Text('Artist'),
+          ),
         );
       },
     );
@@ -126,18 +172,29 @@ class _LibraryScreenState extends State<LibraryScreen>
       padding: const EdgeInsets.only(bottom: 100), // Space for mini player
       itemCount: 20,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Image.network(
-              'https://picsum.photos/56?random=${index + 200}',
-              width: 56,
-              height: 56,
-              fit: BoxFit.cover,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+              width: 1,
             ),
           ),
-          title: Text('Album ${index + 1}'),
-          subtitle: Text('Artist ${index + 1}'),
+          child: ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.network(
+                'https://picsum.photos/56?random=${index + 200}',
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
+              ),
+            ),
+            title: Text('Album ${index + 1}'),
+            subtitle: Text('Artist ${index + 1}'),
+          ),
         );
       },
     );

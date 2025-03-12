@@ -6,16 +6,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
             pinned: true,
             expandedHeight: 120,
-            backgroundColor: const Color(0xFF121212),
+            backgroundColor: Colors.transparent,
             flexibleSpace: FlexibleSpaceBar(
               title: const Text(
-                'JukeVibe',
+                'Good afternoon',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
@@ -26,8 +27,8 @@ class HomeScreen extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      const Color.fromARGB(255, 243, 109, 201).withAlpha(178),
-                      const Color(0xFF121212),
+                      const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
+                      Colors.transparent,
                     ],
                   ),
                 ),
@@ -169,8 +170,12 @@ class RecentlyPlayedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF282828),
-        borderRadius: BorderRadius.circular(4),
+        color: Colors.black.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+          width: 1,
+        ),
       ),
       clipBehavior: Clip.antiAlias,
       child: Row(
@@ -228,11 +233,17 @@ class AlbumCard extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 5,
+                  color:
+                      const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
+                  blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
               ],
+              border: Border.all(
+                color:
+                    const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
+                width: 1,
+              ),
             ),
           ),
           const SizedBox(height: 8),
