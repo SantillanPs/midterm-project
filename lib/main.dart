@@ -4,6 +4,7 @@ import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/library_screen.dart';
 import 'screens/player_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -52,7 +53,11 @@ class MusicApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainScreen(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const MainScreen(),
+      },
     );
   }
 }
@@ -220,7 +225,7 @@ class MiniPlayer extends StatelessWidget {
           // Song info
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
