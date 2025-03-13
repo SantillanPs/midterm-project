@@ -122,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
             Positioned(
               left: 0,
               right: 0,
-              bottom: 76, // Above bottom navigation
+              bottom: 10, // Above bottom navigation
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -220,7 +220,7 @@ class MiniPlayer extends StatelessWidget {
           // Song info
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
