@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -25,23 +27,45 @@ class _LibraryScreenState extends State<LibraryScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Your Library'),
+        title: Text(
+          'Your Library',
+          style: TextStyle(
+            color: isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 60, 60, 80),
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: Icon(
+              Icons.search,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
+            ),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
+            ),
             onPressed: () {},
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: const Color.fromARGB(255, 243, 109, 201),
+          labelColor:
+              isDarkMode ? Colors.white : const Color.fromARGB(255, 60, 60, 80),
+          unselectedLabelColor: isDarkMode ? Colors.white70 : Colors.grey,
           tabs: const [
             Tab(text: 'Playlists'),
             Tab(text: 'Artists'),
@@ -61,6 +85,8 @@ class _LibraryScreenState extends State<LibraryScreen>
   }
 
   Widget _buildPlaylistsTab() {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 100), // Space for mini player
       itemCount: 20,
@@ -69,7 +95,7 @@ class _LibraryScreenState extends State<LibraryScreen>
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.2),
+              color: isDarkMode ? Colors.black.withOpacity(0.2) : Colors.white,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color:
@@ -86,20 +112,34 @@ class _LibraryScreenState extends State<LibraryScreen>
                       const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.favorite,
-                  color: Colors.white,
+                  color: isDarkMode
+                      ? Colors.white
+                      : const Color.fromARGB(255, 60, 60, 80),
                 ),
               ),
-              title: const Text('Liked Songs'),
-              subtitle: const Text('Playlist • 123 songs'),
+              title: Text(
+                'Liked Songs',
+                style: TextStyle(
+                  color: isDarkMode
+                      ? Colors.white
+                      : const Color.fromARGB(255, 60, 60, 80),
+                ),
+              ),
+              subtitle: Text(
+                'Playlist • 123 songs',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.grey : Colors.grey.shade600,
+                ),
+              ),
             ),
           );
         }
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.2),
+            color: isDarkMode ? Colors.black.withOpacity(0.2) : Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
@@ -116,9 +156,20 @@ class _LibraryScreenState extends State<LibraryScreen>
                 fit: BoxFit.cover,
               ),
             ),
-            title: Text('Playlist ${index}'),
+            title: Text(
+              'Playlist ${index}',
+              style: TextStyle(
+                color: isDarkMode
+                    ? Colors.white
+                    : const Color.fromARGB(255, 60, 60, 80),
+              ),
+            ),
             subtitle: Text(
-                index % 2 == 0 ? 'Playlist • By You' : 'Playlist • By Artist'),
+              index % 2 == 0 ? 'Playlist • By You' : 'Playlist • By Artist',
+              style: TextStyle(
+                color: isDarkMode ? Colors.grey : Colors.grey.shade600,
+              ),
+            ),
           ),
         );
       },
@@ -126,6 +177,8 @@ class _LibraryScreenState extends State<LibraryScreen>
   }
 
   Widget _buildArtistsTab() {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 100), // Space for mini player
       itemCount: 20,
@@ -133,7 +186,7 @@ class _LibraryScreenState extends State<LibraryScreen>
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.2),
+            color: isDarkMode ? Colors.black.withOpacity(0.2) : Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
@@ -159,8 +212,20 @@ class _LibraryScreenState extends State<LibraryScreen>
                 ),
               ),
             ),
-            title: Text('Artist ${index + 1}'),
-            subtitle: const Text('Artist'),
+            title: Text(
+              'Artist ${index + 1}',
+              style: TextStyle(
+                color: isDarkMode
+                    ? Colors.white
+                    : const Color.fromARGB(255, 60, 60, 80),
+              ),
+            ),
+            subtitle: Text(
+              'Artist',
+              style: TextStyle(
+                color: isDarkMode ? Colors.grey : Colors.grey.shade600,
+              ),
+            ),
           ),
         );
       },
@@ -168,6 +233,8 @@ class _LibraryScreenState extends State<LibraryScreen>
   }
 
   Widget _buildAlbumsTab() {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 100), // Space for mini player
       itemCount: 20,
@@ -175,7 +242,7 @@ class _LibraryScreenState extends State<LibraryScreen>
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.2),
+            color: isDarkMode ? Colors.black.withOpacity(0.2) : Colors.white,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
@@ -192,8 +259,20 @@ class _LibraryScreenState extends State<LibraryScreen>
                 fit: BoxFit.cover,
               ),
             ),
-            title: Text('Album ${index + 1}'),
-            subtitle: Text('Artist ${index + 1}'),
+            title: Text(
+              'Album ${index + 1}',
+              style: TextStyle(
+                color: isDarkMode
+                    ? Colors.white
+                    : const Color.fromARGB(255, 60, 60, 80),
+              ),
+            ),
+            subtitle: Text(
+              'Artist ${index + 1}',
+              style: TextStyle(
+                color: isDarkMode ? Colors.grey : Colors.grey.shade600,
+              ),
+            ),
           ),
         );
       },

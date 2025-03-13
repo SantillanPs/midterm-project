@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/library_screen.dart';
 import 'screens/player_screen.dart';
 import 'screens/login_screen.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(const MusicApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MusicApp(),
+    ),
+  );
 }
 
 class MusicApp extends StatelessWidget {
@@ -21,38 +29,12 @@ class MusicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'JukeVibe',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: const Color.fromARGB(255, 243, 109, 201),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 24, 22, 47),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        textTheme: const TextTheme(
-          headlineMedium: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          titleLarge: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          titleMedium: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-          bodyLarge: TextStyle(
-            color: Colors.white,
-          ),
-          bodyMedium: TextStyle(
-            color: Colors.grey,
-          ),
-        ),
-      ),
+      theme: themeProvider.themeData,
       initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
@@ -81,6 +63,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -89,33 +74,61 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(
           "JukeVibe",
           style: TextStyle(
-              color: Colors.white,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
               fontWeight: FontWeight.bold,
               fontSize: 27,
               shadows: [
                 Shadow(
-                  color: Color.fromARGB(255, 243, 109, 201).withAlpha(178),
+                  color:
+                      const Color.fromARGB(255, 243, 109, 201).withAlpha(178),
                   blurRadius: 15,
                 ),
                 Shadow(
-                  color: Color.fromARGB(255, 243, 109, 201).withAlpha(128),
+                  color:
+                      const Color.fromARGB(255, 243, 109, 201).withAlpha(128),
                   blurRadius: 25,
                 ),
               ]),
         ),
         shape: Border(
             bottom: BorderSide(
-                color: Color.fromARGB(255, 243, 109, 201).withAlpha(178))),
+                color:
+                    const Color.fromARGB(255, 243, 109, 201).withAlpha(178))),
+        actions: [
+          // Theme toggle button
+          IconButton(
+            icon: Icon(
+              isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
           // Background gradient
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                const Color.fromARGB(255, 37, 38, 66),
-                const Color.fromARGB(255, 24, 22, 47),
-              ], begin: Alignment.topLeft, end: Alignment.bottomCenter),
+              gradient: LinearGradient(
+                colors: isDarkMode
+                    ? [
+                        const Color.fromARGB(255, 37, 38, 66),
+                        const Color.fromARGB(255, 24, 22, 47),
+                      ]
+                    : [
+                        const Color.fromARGB(255, 245, 245, 250),
+                        const Color.fromARGB(255, 235, 235, 245),
+                      ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+              ),
             ),
           ),
 
@@ -144,7 +157,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
+          color: isDarkMode
+              ? Colors.black.withOpacity(0.3)
+              : Colors.white.withOpacity(0.9),
           border: Border(
             top: BorderSide(
               color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.2),
@@ -156,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           selectedItemColor: const Color.fromARGB(255, 243, 109, 201),
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: isDarkMode ? Colors.grey : Colors.grey.shade600,
           currentIndex: _selectedIndex,
           onTap: (index) {
             setState(() {
@@ -189,11 +204,13 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Container(
       height: 60,
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
+        color: isDarkMode ? Colors.black.withOpacity(0.3) : Colors.white,
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: const Color.fromARGB(255, 243, 109, 201).withOpacity(0.3),
@@ -229,21 +246,23 @@ class MiniPlayer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'Song Title',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
-                      color: Colors.white,
+                      color: isDarkMode
+                          ? Colors.white
+                          : const Color.fromARGB(255, 60, 60, 80),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     'Artist Name',
                     style: TextStyle(
-                      color: Colors.grey,
+                      color: isDarkMode ? Colors.grey : Colors.grey.shade600,
                       fontSize: 12,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -254,9 +273,11 @@ class MiniPlayer extends StatelessWidget {
           ),
           // Controls
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.skip_previous,
-              color: Colors.white,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
               size: 20,
             ),
             onPressed: () {},
@@ -279,9 +300,11 @@ class MiniPlayer extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.skip_next,
-              color: Colors.white,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
               size: 20,
             ),
             onPressed: () {},

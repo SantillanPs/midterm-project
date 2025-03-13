@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -19,6 +21,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomScrollView(
@@ -30,24 +34,44 @@ class _SearchScreenState extends State<SearchScreen> {
                 ? TextField(
                     controller: _searchController,
                     autofocus: true,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        color: isDarkMode
+                            ? Colors.white
+                            : const Color.fromARGB(255, 60, 60, 80)),
                     decoration: InputDecoration(
                       hintText: 'Search for songs, artists...',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      hintStyle: TextStyle(
+                          color:
+                              isDarkMode ? Colors.grey[400] : Colors.grey[600]),
                       border: InputBorder.none,
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear, color: Colors.white),
+                        icon: Icon(Icons.clear,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80)),
                         onPressed: () {
                           _searchController.clear();
                         },
                       ),
                     ),
                   )
-                : const Text('Search'),
+                : Text(
+                    'Search',
+                    style: TextStyle(
+                      color: isDarkMode
+                          ? Colors.white
+                          : const Color.fromARGB(255, 60, 60, 80),
+                    ),
+                  ),
             actions: [
               if (!_isSearching)
                 IconButton(
-                  icon: const Icon(Icons.search),
+                  icon: Icon(
+                    Icons.search,
+                    color: isDarkMode
+                        ? Colors.white
+                        : const Color.fromARGB(255, 60, 60, 80),
+                  ),
                   onPressed: () {
                     setState(() {
                       _isSearching = true;
@@ -56,7 +80,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               if (_isSearching)
                 IconButton(
-                  icon: const Icon(Icons.cancel),
+                  icon: Icon(
+                    Icons.cancel,
+                    color: isDarkMode
+                        ? Colors.white
+                        : const Color.fromARGB(255, 60, 60, 80),
+                  ),
                   onPressed: () {
                     setState(() {
                       _isSearching = false;
@@ -174,7 +203,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 4.0),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.2),
+                      color: isDarkMode
+                          ? Colors.black.withOpacity(0.2)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: const Color.fromARGB(255, 243, 109, 201)
@@ -192,10 +223,28 @@ class _SearchScreenState extends State<SearchScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      title: Text('Search Result ${index + 1}'),
-                      subtitle: Text(index % 2 == 0 ? 'Song' : 'Artist'),
+                      title: Text(
+                        'Search Result ${index + 1}',
+                        style: TextStyle(
+                          color: isDarkMode
+                              ? Colors.white
+                              : const Color.fromARGB(255, 60, 60, 80),
+                        ),
+                      ),
+                      subtitle: Text(
+                        index % 2 == 0 ? 'Song' : 'Artist',
+                        style: TextStyle(
+                          color:
+                              isDarkMode ? Colors.grey : Colors.grey.shade600,
+                        ),
+                      ),
                       trailing: IconButton(
-                        icon: const Icon(Icons.more_vert),
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: isDarkMode
+                              ? Colors.white
+                              : const Color.fromARGB(255, 60, 60, 80),
+                        ),
                         onPressed: () {},
                       ),
                     ),
@@ -226,9 +275,11 @@ class GenreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Container(
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withOpacity(isDarkMode ? 0.2 : 0.15),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: color.withOpacity(0.5),
@@ -255,8 +306,10 @@ class GenreCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: isDarkMode
+                    ? Colors.white
+                    : const Color.fromARGB(255, 60, 60, 80),
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),

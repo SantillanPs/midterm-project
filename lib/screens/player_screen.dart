@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({Key? key}) : super(key: key);
@@ -30,24 +32,31 @@ class _PlayerScreenState extends State<PlayerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.keyboard_arrow_down),
+          icon: Icon(
+            Icons.keyboard_arrow_down,
+            color: isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 60, 60, 80),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         title: Column(
-          children: const [
+          children: [
             Text(
               'PLAYING FROM PLAYLIST',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
-                color: Colors.grey,
+                color: isDarkMode ? Colors.grey : Colors.grey.shade600,
               ),
             ),
             Text(
@@ -55,6 +64,9 @@ class _PlayerScreenState extends State<PlayerScreen>
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
+                color: isDarkMode
+                    ? Colors.white
+                    : const Color.fromARGB(255, 60, 60, 80),
               ),
             ),
           ],
@@ -62,7 +74,12 @@ class _PlayerScreenState extends State<PlayerScreen>
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.more_vert),
+            icon: Icon(
+              Icons.more_vert,
+              color: isDarkMode
+                  ? Colors.white
+                  : const Color.fromARGB(255, 60, 60, 80),
+            ),
             onPressed: () {},
           ),
         ],
@@ -73,10 +90,15 @@ class _PlayerScreenState extends State<PlayerScreen>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
-            colors: [
-              const Color.fromARGB(255, 37, 38, 66),
-              const Color.fromARGB(255, 24, 22, 47),
-            ],
+            colors: isDarkMode
+                ? [
+                    const Color.fromARGB(255, 37, 38, 66),
+                    const Color.fromARGB(255, 24, 22, 47),
+                  ]
+                : [
+                    const Color.fromARGB(255, 245, 245, 250),
+                    const Color.fromARGB(255, 235, 235, 245),
+                  ],
           ),
         ),
         child: SafeArea(
@@ -132,21 +154,26 @@ class _PlayerScreenState extends State<PlayerScreen>
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
                                 'Song Title',
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 60, 60, 80),
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Artist Name',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.grey,
+                                  color: isDarkMode
+                                      ? Colors.grey
+                                      : Colors.grey.shade600,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -174,7 +201,9 @@ class _PlayerScreenState extends State<PlayerScreen>
                             ),
                             activeTrackColor:
                                 const Color.fromARGB(255, 243, 109, 201),
-                            inactiveTrackColor: Colors.grey[800],
+                            inactiveTrackColor: isDarkMode
+                                ? Colors.grey[800]
+                                : Colors.grey[300],
                             thumbColor: Colors.white,
                             overlayColor:
                                 const Color.fromARGB(255, 243, 109, 201)
@@ -194,26 +223,30 @@ class _PlayerScreenState extends State<PlayerScreen>
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Text(
                               '1:40',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey,
+                                color: isDarkMode
+                                    ? Colors.grey
+                                    : Colors.grey.shade600,
                               ),
                             ),
                             Text(
                               '4:10',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.grey,
+                                color: isDarkMode
+                                    ? Colors.grey
+                                    : Colors.grey.shade600,
                               ),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -224,7 +257,12 @@ class _PlayerScreenState extends State<PlayerScreen>
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: const Icon(Icons.skip_previous),
+                          icon: Icon(
+                            Icons.skip_previous,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           iconSize: 36,
                           onPressed: () {},
                         ),
@@ -262,12 +300,22 @@ class _PlayerScreenState extends State<PlayerScreen>
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.skip_next),
+                          icon: Icon(
+                            Icons.skip_next,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           iconSize: 36,
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: const Icon(Icons.repeat),
+                          icon: Icon(
+                            Icons.repeat,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           iconSize: 24,
                           onPressed: () {},
                         ),
@@ -278,15 +326,30 @@ class _PlayerScreenState extends State<PlayerScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.devices),
+                          icon: Icon(
+                            Icons.devices,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: const Icon(Icons.share),
+                          icon: Icon(
+                            Icons.share,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           onPressed: () {},
                         ),
                         IconButton(
-                          icon: const Icon(Icons.playlist_play),
+                          icon: Icon(
+                            Icons.playlist_play,
+                            color: isDarkMode
+                                ? Colors.white
+                                : const Color.fromARGB(255, 60, 60, 80),
+                          ),
                           onPressed: () {},
                         ),
                       ],

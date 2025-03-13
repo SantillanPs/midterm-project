@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -50,16 +52,23 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
-            colors: [
-              const Color.fromARGB(255, 37, 38, 66),
-              const Color.fromARGB(255, 24, 22, 47),
-            ],
+            colors: isDarkMode
+                ? [
+                    const Color.fromARGB(255, 37, 38, 66),
+                    const Color.fromARGB(255, 24, 22, 47),
+                  ]
+                : [
+                    const Color.fromARGB(255, 245, 245, 250),
+                    const Color.fromARGB(255, 235, 235, 245),
+                  ],
           ),
         ),
         child: SafeArea(
@@ -80,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen>
                             height: 100,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.black.withOpacity(0.3),
+                              color: isDarkMode
+                                  ? Colors.black.withOpacity(0.3)
+                                  : Colors.white,
                               border: Border.all(
                                 color: const Color.fromARGB(255, 243, 109, 201)
                                     .withOpacity(0.5),
@@ -106,7 +117,9 @@ class _LoginScreenState extends State<LoginScreen>
                           Text(
                             "JukeVibe",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: isDarkMode
+                                  ? Colors.white
+                                  : const Color.fromARGB(255, 60, 60, 80),
                               fontWeight: FontWeight.bold,
                               fontSize: 36,
                               shadows: [
@@ -129,7 +142,9 @@ class _LoginScreenState extends State<LoginScreen>
                           Text(
                             "Your music, your vibe",
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
+                              color: isDarkMode
+                                  ? Colors.white.withOpacity(0.7)
+                                  : Colors.grey.shade600,
                               fontSize: 16,
                             ),
                           ),
@@ -145,25 +160,36 @@ class _LoginScreenState extends State<LoginScreen>
                             // Email Field
                             TextFormField(
                               controller: _emailController,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 60, 60, 80)),
                               decoration: InputDecoration(
                                 labelText: 'Email or Username',
                                 labelStyle: TextStyle(
-                                    color: Colors.white.withOpacity(0.7)),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.7)
+                                        : Colors.grey.shade600),
                                 prefixIcon: Icon(
                                   Icons.email_outlined,
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: isDarkMode
+                                      ? Colors.white.withOpacity(0.7)
+                                      : Colors.grey.shade600,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.3)
+                                        : Colors.grey.shade300,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.3)
+                                        : Colors.grey.shade300,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -173,7 +199,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ),
                                 filled: true,
-                                fillColor: Colors.black.withOpacity(0.2),
+                                fillColor: isDarkMode
+                                    ? Colors.black.withOpacity(0.2)
+                                    : Colors.white,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -188,21 +216,30 @@ class _LoginScreenState extends State<LoginScreen>
                             TextFormField(
                               controller: _passwordController,
                               obscureText: _obscurePassword,
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 60, 60, 80)),
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
-                                    color: Colors.white.withOpacity(0.7)),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.7)
+                                        : Colors.grey.shade600),
                                 prefixIcon: Icon(
                                   Icons.lock_outline,
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: isDarkMode
+                                      ? Colors.white.withOpacity(0.7)
+                                      : Colors.grey.shade600,
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword
                                         ? Icons.visibility_off
                                         : Icons.visibility,
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.7)
+                                        : Colors.grey.shade600,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -213,13 +250,17 @@ class _LoginScreenState extends State<LoginScreen>
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.3)
+                                        : Colors.grey.shade300,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: isDarkMode
+                                        ? Colors.white.withOpacity(0.3)
+                                        : Colors.grey.shade300,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -229,7 +270,9 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                 ),
                                 filled: true,
-                                fillColor: Colors.black.withOpacity(0.2),
+                                fillColor: isDarkMode
+                                    ? Colors.black.withOpacity(0.2)
+                                    : Colors.white,
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -267,8 +310,10 @@ class _LoginScreenState extends State<LoginScreen>
                                                 return const Color.fromARGB(
                                                     255, 243, 109, 201);
                                               }
-                                              return Colors.white
-                                                  .withOpacity(0.3);
+                                              return isDarkMode
+                                                  ? Colors.white
+                                                      .withOpacity(0.3)
+                                                  : Colors.grey.shade300;
                                             },
                                           ),
                                           shape: RoundedRectangleBorder(
@@ -281,7 +326,9 @@ class _LoginScreenState extends State<LoginScreen>
                                       Text(
                                         'Remember me',
                                         style: TextStyle(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: isDarkMode
+                                              ? Colors.white.withOpacity(0.7)
+                                              : Colors.grey.shade600,
                                           fontSize: 14,
                                         ),
                                       ),
@@ -342,7 +389,9 @@ class _LoginScreenState extends State<LoginScreen>
                           children: [
                             Expanded(
                               child: Divider(
-                                color: Colors.white.withOpacity(0.3),
+                                color: isDarkMode
+                                    ? Colors.white.withOpacity(0.3)
+                                    : Colors.grey.shade300,
                                 thickness: 1,
                               ),
                             ),
@@ -352,14 +401,18 @@ class _LoginScreenState extends State<LoginScreen>
                               child: Text(
                                 'OR',
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: isDarkMode
+                                      ? Colors.white.withOpacity(0.7)
+                                      : Colors.grey.shade600,
                                   fontSize: 14,
                                 ),
                               ),
                             ),
                             Expanded(
                               child: Divider(
-                                color: Colors.white.withOpacity(0.3),
+                                color: isDarkMode
+                                    ? Colors.white.withOpacity(0.3)
+                                    : Colors.grey.shade300,
                                 thickness: 1,
                               ),
                             ),
@@ -385,7 +438,7 @@ class _LoginScreenState extends State<LoginScreen>
                           const SizedBox(width: 20),
                           _buildSocialButton(
                             icon: Icons.apple,
-                            color: Colors.white,
+                            color: isDarkMode ? Colors.white : Colors.black,
                             onPressed: () {},
                           ),
                         ],
@@ -400,7 +453,9 @@ class _LoginScreenState extends State<LoginScreen>
                             Text(
                               "Don't have an account? ",
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
+                                color: isDarkMode
+                                    ? Colors.white.withOpacity(0.7)
+                                    : Colors.grey.shade600,
                                 fontSize: 14,
                               ),
                             ),
@@ -416,6 +471,44 @@ class _LoginScreenState extends State<LoginScreen>
                                   fontSize: 14,
                                 ),
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Theme Toggle
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                              color: isDarkMode
+                                  ? Colors.white.withOpacity(0.7)
+                                  : Colors.grey.shade600,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Theme:',
+                              style: TextStyle(
+                                color: isDarkMode
+                                    ? Colors.white.withOpacity(0.7)
+                                    : Colors.grey.shade600,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Switch(
+                              value: isDarkMode,
+                              onChanged: (value) {
+                                Provider.of<ThemeProvider>(context,
+                                        listen: false)
+                                    .toggleTheme();
+                              },
+                              activeColor:
+                                  const Color.fromARGB(255, 243, 109, 201),
                             ),
                           ],
                         ),
@@ -436,6 +529,8 @@ class _LoginScreenState extends State<LoginScreen>
     required Color color,
     required VoidCallback onPressed,
   }) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(30),
@@ -444,9 +539,11 @@ class _LoginScreenState extends State<LoginScreen>
         height: 60,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.black.withOpacity(0.2),
+          color: isDarkMode ? Colors.black.withOpacity(0.2) : Colors.white,
           border: Border.all(
-            color: Colors.white.withOpacity(0.3),
+            color: isDarkMode
+                ? Colors.white.withOpacity(0.3)
+                : Colors.grey.shade300,
             width: 1,
           ),
         ),
